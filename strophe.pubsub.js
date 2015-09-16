@@ -18,19 +18,20 @@
             return factory($, _, Backbone, Strophe);
         });
     } else if (typeof module === 'object' && module.exports) {
-        var $ = require('jquery'),
-            _ = require('underscore'),
-            Backbone = require('backbone'),
-            Strophe = require('stophe');
-
-        module.exports = factory($, _, Backbone, Strophe);
+        (function(){
+            var $ = require('jquery'),
+                Strophe = require('strophe');
+            if ($.isEmptyObject(Strophe) && window.Strophe) {
+                Strophe = window.Strophe;
+            }
+            factory($, require('underscore'), require('backbone'), Strophe);
+        })();
     } else {
         // Browser globals
         factory(root.$, root._, root.Backbone, root.Strophe);
     }
 }(this,function ($, _, Backbone, Strophe) {
 
-    // Add the **PubSub** plugin to Strophe
     Strophe.addConnectionPlugin('PubSub', {
 
         _connection: null,

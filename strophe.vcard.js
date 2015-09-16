@@ -18,10 +18,14 @@
             return factory($, _, Backbone, Strophe);
         });
     } else if (typeof module === 'object' && module.exports) {
-        var $ = require('jquery'),
-            _ = require('underscore'),
-            Backbone = require('backbone'),
-            Strophe = require('stophe');
+        (function(){
+            var $ = require('jquery'),
+                Strophe = require('strophe');
+            if ($.isEmptyObject(Strophe) && window.Strophe) {
+                Strophe = window.Strophe;
+            }
+            factory($, require('underscore'), require('backbone'), Strophe);
+        })();
     } else {
         // Browser globals
         factory(root.$, root._, root.Backbone, root.Strophe);

@@ -18,11 +18,14 @@
             return (Strophe.x = factory($, _, Strophe));
         });
     } else if (typeof module === 'object' && module.exports) {
-        var $ = require('jquery'),
-            _ = require('underscore'),
-            Strophe = require('stophe');
-
-        module.exports = (Strophe.x = factory($, _, Strophe);
+        (function(){
+            var $ = require('jquery'),
+                Strophe = require('strophe');
+            if ($.isEmptyObject(Strophe) && window.Strophe) {
+                Strophe = window.Strophe;
+            }
+            Strophe.x = factory($, require('underscore'), Strophe);
+        })();
     } else {
         // Browser globals
         Strophe.x = factory(root.$, root._, root.Strophe);
