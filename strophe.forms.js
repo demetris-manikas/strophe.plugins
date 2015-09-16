@@ -17,6 +17,12 @@
             // a global even when an AMD loader is in use.
             return (Strophe.x = factory($, _, Strophe));
         });
+    } else if (typeof module === 'object' && module.exports) {
+        var $ = require('jquery'),
+            _ = require('underscore'),
+            Strophe = require('stophe');
+
+        module.exports = (Strophe.x = factory($, _, Strophe);
     } else {
         // Browser globals
         Strophe.x = factory(root.$, root._, root.Strophe);
